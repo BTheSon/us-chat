@@ -20,6 +20,17 @@
     const listMess = document.getElementById("message");
     const userName = prompt("What Your Name?")??"No Name";
 
+    socket.on('connect', () => {
+        console.log('Kết nối thành công');
+        socket.emit('user-join', {username: userName}); // Gửi sự kiện tùy chỉnh với dữ liệu
+    })
+    
+    socket.on('user-chat',mess => {
+        const listItem = createElement(mess.username, mess.message);
+        
+        listMess.appendChild(listItem);
+    })
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const mess = chatmes.value;
@@ -44,11 +55,6 @@
         
         return item
     }
-    socket.on('user-chat',mess => {
-        const listItem = createElement(mess.username, mess.message);
-        
-        listMess.appendChild(listItem);
-    })
 </script>
 </body>
 </html>

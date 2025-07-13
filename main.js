@@ -14,7 +14,13 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
 io.on('connection', (socket) => {
-    console.log("user connected");
+    
+    // Lắng nghe sự kiện user-join từ client
+    socket.on('user-join', (data) => {
+        console.log(`${data.username} đã tham gia!`);
+        // Phát thông báo đến tất cả client
+        io.emit('user-chat', { username: data.username, message: `${data.username} đã tham gia !` });
+    });
 
     socket.on('on-chat', data => {
         console.log(data);
