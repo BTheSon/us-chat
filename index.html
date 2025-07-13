@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+</head>
+<body>
+    <h1>App chat hehe</h1>
+    <ul id="message"></ul>
+    <form action="" id="chat-form" autocomplete="off">
+        <input type="text" name="" id="chat-mes" placeholder="nhập tin nhắn">
+        <button i="send-chat">gửi</button>
+    </form>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const form = document.getElementById("chat-form");
+    const chatmes = document.getElementById("chat-mes");
+    const listMess = document.getElementById("message");
+    const userName = prompt("What Your Name?")??"No Name";
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mess = chatmes.value;
+        const data =  {username:userName, message:mess }
+
+        socket.emit('on-chat', data);
+        chatmes.value = "";
+    })
+
+    function createElement(username, message) {
+
+        username += ": ";
+        message = message ?? "...";
+        let item = document.createElement('li');
+        let user = document.createElement('strong');
+        
+        user.textContent = username;
+        
+        item.appendChild(user);
+        item.append(message);
+
+        
+        return item
+    }
+    socket.on('user-chat',mess => {
+        const listItem = createElement(mess.username, mess.message);
+        
+        listMess.appendChild(listItem);
+    })
+</script>
+</body>
+</html>
