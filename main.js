@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
     socket.on('user-join', (data) => {
         console.log(`${data.username} đã tham gia!`);
         // Phát thông báo đến tất cả client
-        io.emit('user-chat', { username: data.username, message: `${data.username} đã tham gia !` });
+        io.emit('user-chat', { username: data.username, message: `đã tham gia !` });
     });
 
     socket.on('on-chat', data => {
